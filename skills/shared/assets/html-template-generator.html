@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{PAGE_TITLE}}</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2.8em; margin-bottom: 10px; font-weight: 700; }
+        .header p { font-size: 1.15em; opacity: 0.9; }
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+        .nav-tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 16px;
+            border: none;
+            background: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-tabs button:hover {
+            background: #f0f2f5;
+            color: #667eea;
+        }
+        .nav-tabs button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+        .content {
+            padding: 40px;
+            min-height: 500px;
+        }
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2.section-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        .artifact-card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            transition: box-shadow 0.3s ease;
+        }
+        .artifact-card:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+        .artifact-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .artifact-content {
+            color: #555;
+            line-height: 1.7;
+        }
+        .artifact-content h3 {
+            font-size: 1.15em;
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .artifact-content h3:first-child {
+            margin-top: 0;
+        }
+        .artifact-content h4 {
+            font-size: 1em;
+            color: #764ba2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background: #f0f2f5;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin: 3px 5px 3px 0;
+        }
+        .badge-confirmed {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .badge-inferred {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .badge-high {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .badge-medium {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+        .badge-low {
+            background: #d4edda;
+            color: #27ae60;
+        }
+        .badge-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-answered {
+            background: #cfe2ff;
+            color: #084298;
+        }
+        .mermaid {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            justify-content: center;
+        }
+        .decision-item {
+            padding: 15px;
+            background: white;
+            border-left: 4px solid #764ba2;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+        .footer-box {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            color: white;
+        }
+        .footer-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        .footer-box p {
+            font-size: 1.05em;
+            margin-bottom: 10px;
+        }
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        .page-footer {
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+        @media (max-width: 768px) {
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+            .nav-tabs button { min-width: 100px; padding: 12px; font-size: 0.9em; }
+            .artifact-card { padding: 15px; }
+            .artifact-title { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ========== HEADER ========== -->
+        <div class="header">
+            <h1>{{EMOJI}} {{TITULO_PRINCIPAL}}</h1>
+            <p>{{SUBTITULO}}</p>
+        </div>
+
+        <!-- ========== NAVEGAÇÃO (ABAS) ========== -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="aba1">{{EMOJI1}} {{LABEL_ABA1}}</button>
+            <button class="tab-btn" data-tab="aba2">{{EMOJI2}} {{LABEL_ABA2}}</button>
+            <button class="tab-btn" data-tab="aba3">{{EMOJI3}} {{LABEL_ABA3}}</button>
+            <!-- Adicione mais abas se necessário -->
+        </div>
+
+        <!-- ========== CONTEÚDO ========== -->
+        <div class="content">
+
+            <!-- ABA 1 -->
+            <div class="tab-pane active" id="aba1">
+                <h2 class="section-title">{{EMOJI1}} {{TITULO_ABA1}}</h2>
+
+                <div class="artifact-card">
+                    <div class="artifact-title">Título do Primeiro Artefato</div>
+                    <div class="artifact-content">
+                        <h3>Sub-seção 1</h3>
+                        <p>Seu conteúdo aqui...</p>
+                        
+                        <h3>Sub-seção 2</h3>
+                        <p>Mais conteúdo...</p>
+                    </div>
+                </div>
+
+                <div class="artifact-card">
+                    <div class="artifact-title">Exemplo de Tabela</div>
+                    <table>
+                        <tr>
+                            <th>Coluna 1</th>
+                            <th>Coluna 2</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>Item 1</td>
+                            <td>Descrição</td>
+                            <td><span class="badge badge-confirmed">OK</span></td>
+                        </tr>
+                        <tr>
+                            <td>Item 2</td>
+                            <td>Descrição</td>
+                            <td><span class="badge badge-high">Crítico</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="artifact-card">
+                    <div class="artifact-title">Exemplo de Diagrama Mermaid</div>
+                    <div class="mermaid">
+graph TD
+    A["Entrada"] --> B["Processamento"]
+    B --> C["Saída"]
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA 2 -->
+            <div class="tab-pane" id="aba2">
+                <h2 class="section-title">{{EMOJI2}} {{TITULO_ABA2}}</h2>
+
+                <div class="artifact-card">
+                    <div class="artifact-title">Conteúdo da Aba 2</div>
+                    <div class="artifact-content">
+                        <p>Adicione seu conteúdo aqui...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA 3 -->
+            <div class="tab-pane" id="aba3">
+                <h2 class="section-title">{{EMOJI3}} {{TITULO_ABA3}}</h2>
+
+                <div class="artifact-card">
+                    <div class="artifact-title">Conteúdo da Aba 3</div>
+                    <div class="artifact-content">
+                        <p>Adicione seu conteúdo aqui...</p>
+                    </div>
+                </div>
+
+                <!-- Chamada para ação (footer-box) -->
+                <div class="footer-box">
+                    <h3>🎯 Próximo Passo</h3>
+                    <p>Sua instrução aqui...</p>
+                    <p style="font-size: 1.2em; font-weight: 600; margin-top: 15px;">Responda:</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========== RODAPÉ ========== -->
+        <div class="page-footer">
+            <p>{{PROJETO}} — {{FASE}} | Data: {{DATA}} | {{ORGANIZACAO}}</p>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar event listeners para abas
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                // Esconder todas as abas
+                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                
+                // Mostrar aba selecionada
+                document.getElementById(tab).classList.add('active');
+                btn.classList.add('active');
+                
+                // Re-renderizar diagramas Mermaid
+                mermaid.contentLoaded();
+            });
+        });
+        
+        // Inicializar Mermaid
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+</body>
+</html>

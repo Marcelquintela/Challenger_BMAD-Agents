@@ -1,0 +1,24 @@
+Passo a passo
+
+1 - criar pastas dos framekorks separadas _bmad e _spec
+mkdir _bmad, _spec
+
+2 - Instalar o BMAD (https://github.com/bmad-code-org/BMAD-METHOD/tree/main)
+cd _bmad
+npx bmad-method install
+modo interativo marque Core Module, Builder e Creative Intelligence Suite
+Integrate to: Claude Code e GitHub Copilot
+
+
+3 - Criar estrutura basica
+utilize os arquivos .txt da pasta prompt
+inclua na raiz "bmad-agent-structure-basic.instructions.md" - serie de instruções para criação da estrutura
+exemplo de instrução "Crie os agentes x, y e z com wrapper e output"
+depois de criado mova o .md para a pasta instructions em .GitHub
+New-Item -ItemType Directory -Path ".github\instructions" -Force | Out-Null; Move-Item -Path "bmad-agent-structure-basic.instructions.md" -Destination ".github\instructions\bmad-agent-structure-basic.instructions.md" -Force
+
+4- Configure o Bmad
+bmad-help
+
+5 - Criar os agentes com bmad
+no chat insira: BA e o caminho do agente do prompt, criando as SKILLs a partir do .txt para um formato operacional padronizado (objetivo, entradas, processo, saídas e critérios de qualidade)
