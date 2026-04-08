@@ -11,11 +11,11 @@ Guide the user from the initial context to the correct invocation of specialized
    └─ Ask objectively: what is the problem, what is the scope, are there known constraints?
    └─ Confirm available inputs (documents, images, descriptions)
 
-2. Discovery (agent: agent-discovery)
+2. Discovery (agent: agent-advisor)
    └─ Inform the user what the agent will do and what will be produced
    └─ Wait for completion and trigger the validation gate before proceeding
 
-3. Architecture (agent: agent-architecture-dotnet)
+3. Architecture (agent: agent-architect)
    └─ Inform the user what the agent will do and which discovery inputs will be used
    └─ Wait for completion and trigger the validation gate before proceeding
 ```

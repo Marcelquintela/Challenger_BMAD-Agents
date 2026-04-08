@@ -11,7 +11,7 @@ Consume discovery artifacts (AS-IS, gaps, risks, and others) to interpret busine
 
 ## Output Directory
 
-Create the files in the `outputs/agent-architecture-dotnet/` directory.
+Create the files in the `outputs/agent-architect/` directory.
 
 ## What Success Looks Like
 

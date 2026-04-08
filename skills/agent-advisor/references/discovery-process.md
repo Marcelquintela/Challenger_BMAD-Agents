@@ -11,7 +11,7 @@ Analyze provided inputs (text, images, documents) to build a complete understand
 
 ## Output Directory
 
-Create the files in the `outputs/agent-discovery/` directory.
+Create the files in the `outputs/agent-advisor/` directory.
 
 ## What Success Looks Like
 
